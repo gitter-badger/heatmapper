@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Heatmaps</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+      #floating-panel {
+        background-color: #fff;
+        border: 1px solid #999;
+        left: 25%;
+        padding: 5px;
+        position: absolute;
+        top: 10px;
+        z-index: 5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <input type="file" id="input" multiple onchange="handleFiles(this.files)">
+    <div id="floating-panel">
+      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+      <button onclick="changeGradient()">Change gradient</button>
+      <button onclick="changeRadius()">Change radius</button>
+      <button onclick="changeOpacity()">Change opacity</button>
+    </div>
+    <div id="map"></div>
+    <script>
+
+      // This example requires the Visualization library. Include the libraries=visualization
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
+
+      var map, heatmap;
+      var points = [];
+
+    function formatCoordinates(coord) {
+            var result;
+            if(coord.substring(10, 11) == 'W' || 'S') {
+                result = '-' + coord.substring(0, coord.length-1);
+            } else {
+                result = coord.substring(0, coord.length-1);
+            }
+            return result;
+        }
+    function formatRSSI(rssi) {
+            return rssi.substring(8, 12);
+        }
+        
+    function handleFiles(files) {
+            var file = files[0];
+            console.log(file.name);
+            var reader = new FileReader();
+            reader.readAsText(file);
+            reader.onerror = 
+                function() {
+                    document.getElementById("status").innerHTML = 'Error';
+                };
+            reader.onloadstart = 
+                function() {
+                };
+            reader.onload = 
+                function() {
+                    var lines = reader.result.split("\n");
+                    var values;
+                    for (var i = 0; i < 10000; i++) {
+                        values = lines[i].split(",");
+                        //console.log(lines[i]);
+                        if(values[2] !== null) {
+                            //console.log("test passed");
+                            points.push(new google.maps.LatLng(formatCoordinates(values[2]), formatCoordinates(values[3])));
+                            console.log("(" + 
+                                formatCoordinates(values[2]) + ", " + 
+                                formatCoordinates(values[3]) + ")");
+                        }
+                    }
+                    initMap();
+                };
+            //for (var i = 0; i < files.length; i++) {
+            //    file = files.item(i);
+            //    console.log(file.name);
+            //}
+        }
+        
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 13,
+          center: {lat: -45.448924, lng: -73.721066},
+          mapTypeId: 'satellite'
+        });
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+          data: getPoints(),
+          map: map
+        });
+      }
+
+      function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+      }
+
+      function changeGradient() {
+        var gradient = [
+          'rgba(0, 255, 255, 0)',
+          'rgba(0, 255, 255, 1)',
+          'rgba(0, 191, 255, 1)',
+          'rgba(0, 127, 255, 1)',
+          'rgba(0, 63, 255, 1)',
+          'rgba(0, 0, 255, 1)',
+          'rgba(0, 0, 223, 1)',
+          'rgba(0, 0, 191, 1)',
+          'rgba(0, 0, 159, 1)',
+          'rgba(0, 0, 127, 1)',
+          'rgba(63, 0, 91, 1)',
+          'rgba(127, 0, 63, 1)',
+          'rgba(191, 0, 31, 1)',
+          'rgba(255, 0, 0, 1)'
+        ]
+        heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+      }
+
+      function changeRadius() {
+        heatmap.set('radius', heatmap.get('radius') ? null : 20);
+      }
+
+      function changeOpacity() {
+        heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+      }
+
+      // Heatmap data: 500 Points
+      function getPoints() {
+        return points;
+      }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmPhno7olbxXLyR7q7Xr4msBqwl8DiUnY&libraries=visualization">
+    </script>
+  </body>
+</html>

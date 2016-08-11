@@ -1,0 +1,3 @@
+
+Multiple file support
+Weighted and inverse colored points

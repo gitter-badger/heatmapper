@@ -14,16 +14,11 @@
       }
       #floating-panel {
         position: absolute;
-        top: 0%;
+        top: 1%;
         left: 35%;
         z-index: 5;
         background-color: #fff;
-        padding: 5px;
-        border:1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
+
       }
 	.input {
 		-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -50,8 +45,8 @@
 		padding:3px 11px;
 		text-decoration:none;
 		text-shadow:0px 1px 0px #ffffff;
-		position: relative;
-		left: 30px;
+		position: absolute;
+		left: 15%;
 		top: 10px;
 	}
 	.input:hover {
@@ -65,8 +60,8 @@
 		background-color:#e9e9e9;
 	}
 	.input:active {
-		position: relative;
-		left: 30px;
+		position: absolute;
+		left: 15%;
 		top: 10px;
 	}
 	.googlecontrols {
@@ -105,8 +100,13 @@
 		background-color:#bc3315;
 	}
 	.googlecontrols:active {
-		position:relative;
+		position:absolute;
 		top:1px;
+	}
+	.logo {
+		position:absolute;
+		left:1%;
+		top: 5px;
 	}
 
 
@@ -114,14 +114,15 @@
   </head>
 
   <body>
-    <a href="#" class="input" onclick="document.getElementById('input').click(); return false;" />Select File</a>
+    <a href="#" class="input" onclick="document.getElementById('input').click(); return false;" >Select File</a>
     <input type="file" id="input" multiple onchange="handleFiles(this.files)" style="display: none;" />
+    <img class="logo" src="C:\Users\Alpine\Desktop\Heatmap\heatmapper\DPSRR-1.png" width="50" height="50" alt=""/>
     <div id="floating-panel">
       <button class="googlecontrols" onclick="toggleHeatmap()">Toggle Heatmap</button>
       <button class="googlecontrols" onclick="changeGradient()">Change gradient</button>
       <button class="googlecontrols" onclick="changeRadius()">Change radius</button>
       <button class="googlecontrols" onclick="changeOpacity()">Change opacity</button>
-    </div>
+      </div>
     <div id="map"></div>
     <script>
 

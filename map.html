@@ -12,174 +12,90 @@
       #map {
         height: 100%;
       }
-      #floating-panel {
+      #input {
         position: absolute;
         top: 1%;
         left: 35%;
         z-index: 5;
         background-color: #fff;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 5%;
+        left: 35%;
+        z-index: 5;
+        background-color: #fff;
 
       }
-	.input {
-		-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-		-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-		box-shadow:inset 0px 1px 0px 0px #ffffff;
-		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
-		background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-		background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-		background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-		background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
-		background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
-		background-color:#f9f9f9;
-		-moz-border-radius:6px;
-		-webkit-border-radius:6px;
-		border-radius:6px;
-		border:1px solid #dcdcdc;
-		display:inline-block;
-		cursor:pointer;
-		color:#666666;
-		font-family:Arial;
-		font-size:12px;
-		font-weight:bold;
-		padding:3px 11px;
-		text-decoration:none;
-		text-shadow:0px 1px 0px #ffffff;
-		position: absolute;
-		left: 15%;
-		top: 10px;
-	}
-	.input:hover {
-		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9));
-		background:-moz-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
-		background:-webkit-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
-		background:-o-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
-		background:-ms-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
-		background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9',GradientType=0);
-		background-color:#e9e9e9;
-	}
-	.input:active {
-		position: absolute;
-		left: 15%;
-		top: 10px;
-	}
-	.googlecontrols {
-		-moz-box-shadow:inset 0px 1px 0px 0px #cf866c;
-		-webkit-box-shadow:inset 0px 1px 0px 0px #cf866c;
-		box-shadow:inset 0px 1px 0px 0px #cf866c;
-		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d0451b), color-stop(1, #bc3315));
-		background:-moz-linear-gradient(top, #d0451b 5%, #bc3315 100%);
-		background:-webkit-linear-gradient(top, #d0451b 5%, #bc3315 100%);
-		background:-o-linear-gradient(top, #d0451b 5%, #bc3315 100%);
-		background:-ms-linear-gradient(top, #d0451b 5%, #bc3315 100%);
-		background:linear-gradient(to bottom, #d0451b 5%, #bc3315 100%);
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d0451b', endColorstr='#bc3315',GradientType=0);
-		background-color:#d0451b;
-		-moz-border-radius:3px;
-		-webkit-border-radius:3px;
-		border-radius:3px;
-		border:1px solid #942911;
-		display:inline-block;
-		cursor:pointer;
-		color:#ffffff;
-		font-family:Arial;
-		font-size:13px;
-		padding:6px 24px;
-		text-decoration:none;
-		text-shadow:0px 1px 0px #854629;
-	}
-	.googlecontrols:hover {
-		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #bc3315), color-stop(1, #d0451b));
-		background:-moz-linear-gradient(top, #bc3315 5%, #d0451b 100%);
-		background:-webkit-linear-gradient(top, #bc3315 5%, #d0451b 100%);
-		background:-o-linear-gradient(top, #bc3315 5%, #d0451b 100%);
-		background:-ms-linear-gradient(top, #bc3315 5%, #d0451b 100%);
-		background:linear-gradient(to bottom, #bc3315 5%, #d0451b 100%);
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bc3315', endColorstr='#d0451b',GradientType=0);
-		background-color:#bc3315;
-	}
-	.googlecontrols:active {
-		position:absolute;
-		top:1px;
-	}
-	.logo {
-		position:absolute;
-		left:1%;
-		top: 5px;
-	}
-
-
     </style>
   </head>
 
   <body>
-    <a href="#" class="input" onclick="document.getElementById('input').click(); return false;" >Select File</a>
-    <input type="file" id="input" multiple onchange="handleFiles(this.files)" style="display: none;" />
-    <img class="logo" src="C:\Users\Alpine\Desktop\Heatmap\heatmapper\DPSRR-1.png" width="50" height="50" alt=""/>
+    <input type="file" id="input" multiple onchange="readFiles(this.files)" />
     <div id="floating-panel">
-      <button class="googlecontrols" onclick="toggleHeatmap()">Toggle Heatmap</button>
-      <button class="googlecontrols" onclick="changeGradient()">Change gradient</button>
-      <button class="googlecontrols" onclick="changeRadius()">Change radius</button>
-      <button class="googlecontrols" onclick="changeOpacity()">Change opacity</button>
-      </div>
+      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+      <button onclick="changeGradient()">Change gradient</button>
+      <button onclick="changeRadius()">Change radius</button>
+      <button onclick="changeOpacity()">Change opacity</button>
+    </div>
     <div id="map"></div>
     <script>
-
-      // This example requires the Visualization library. Include the libraries=visualization
-      // parameter when you first load the API. For example:
-      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
-
       var map, heatmap;
       var points = [];
 
-    function formatCoordinates(coord) {
-            var result;
-            if(coord.substring(10, 11) == 'W' || 'S') {
-                result = '-' + coord.substring(0, coord.length-1);
-            } else {
-                result = coord.substring(0, coord.length-1);
-            }
+      // Convert the Surveyor's coordinate format ('XXX.XXXS')  to Google Map's format ('-XXX.XXX').
+      function formatCoordinates(coord) {
+        var result;
+
+        if(coord.substring(10, 11) == 'W' || 'S') {
+          result = '-' + coord.substring(0, coord.length-1);
+        } else {
+          result = coord.substring(0, coord.length-1);
+        }
+
             return result;
-        }
-    function formatRSSI(rssi) {
-            return rssi.substring(8, 12);
-        }
-        
-    function handleFiles(files) {
-            var file = files[0];
-            console.log(file.name);
-            var reader = new FileReader();
-            reader.readAsText(file);
-            reader.onerror = 
+      }
+
+      // Convert the Surveyor's RSSI format (' RSSI = XXXX') to a raw value ('XXXX').
+      function formatRSSI(rssi) {
+        return rssi.substring(8, 12);
+      }
+
+      // Read the Surveyor files and process them depending on the result of FileReader.readAsText().
+      function readFiles(files) {
+        var file = files[0];
+        console.log(file.name);
+        var reader = new FileReader();
+        reader.readAsText(file);
+        reader.onerror =
                 function() {
-                    document.getElementById("status").innerHTML = 'Error';
+                  document.getElementById("status").innerHTML = 'Error';
                 };
-            reader.onloadstart = 
+        reader.onloadstart =
                 function() {
                 };
-            reader.onload = 
+        reader.onload =
                 function() {
-                    var lines = reader.result.split("\n");
-                    var values;
-                    for (var i = 0; i < 10000; i++) {
-                        values = lines[i].split(",");
-                        //console.log(lines[i]);
-                        if(values[2] !== null) {
-                            //console.log("test passed");
-                            points.push(new google.maps.LatLng(formatCoordinates(values[2]), formatCoordinates(values[3])));
-                            console.log("(" + 
-                                formatCoordinates(values[2]) + ", " + 
-                                formatCoordinates(values[3]) + ")");
-                        }
+                  var lines = reader.result.split("\n");
+                  var values;
+                  for (var i = 0; i < 10000; i++) {
+                    values = lines[i].split(",");
+                    //console.log(lines[i]);
+                    if(values[2] !== null) {
+                      //console.log("test passed");
+                      points.push(new google.maps.LatLng(formatCoordinates(values[2]), formatCoordinates(values[3])));
+                      console.log("(" +
+                              formatCoordinates(values[2]) + ", " +
+                              formatCoordinates(values[3]) + ")");
                     }
-                    initMap();
+                  }
+                  initMap();
                 };
             //for (var i = 0; i < files.length; i++) {
             //    file = files.item(i);
             //    console.log(file.name);
             //}
-        }
+      }
         
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -226,13 +142,12 @@
         heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
       }
 
-      // Heatmap data: 500 Points
       function getPoints() {
         return points;
       }
     </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmPhno7olbxXLyR7q7Xr4msBqwl8DiUnY&libraries=visualization">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmPhno7olbxXLyR7q7Xr4msBqwl8DiUnY&libraries=visualization">
     </script>
   </body>
 </html>

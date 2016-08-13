@@ -56,7 +56,7 @@
       function formatCoordinates(coord) {
         var result;
 
-        if(coord.substring(10, 11) == 'W' || 'S') {
+        if(coord.substring(10, 11) == 'W' || coord.substring(10, 11) == 'S') {
           result = '-' + coord.substring(0, coord.length-1);
         } else {
           result = coord.substring(0, coord.length-1);
@@ -70,6 +70,14 @@
         return rssi.substring(8, 12);
       }
 
+      function processFile(result) {
+        var lines = result.split("\n");
+        var values;
+        for (var i = 0; i < lines.length; i++) {
+
+        }
+      }
+
       // Read the Surveyor files and process them depending on the result of FileReader.readAsText().
       function readFiles(files) {
         var file = files[0];
@@ -78,7 +86,14 @@
         reader.readAsText(file);
         reader.onerror =
                 function() {
+                  console.log("reading operation encountered an error");
                   document.getElementById("status").innerHTML = "Error reading file";
+                  document.getElementById("input-panel").style.backgroundColor = "#F44336";
+                };
+        reader.onabort =
+                function() {
+                  console.log("Reading operation aborted.");
+                  document.getElementById("status").innerHTML = "Aborted reading file";
                   document.getElementById("input-panel").style.backgroundColor = "#F44336";
                 };
         reader.onloadstart =
@@ -88,17 +103,23 @@
                 };
         reader.onload =
                 function() {
+                  console.log("Reading operation successfully completed");
                   var lines = reader.result.split("\n");
                   var values;
-                  for (var i = 0; i < 10000; i++) {
-                    values = lines[i].split(",");
+                  for (var i = 0; i < lines.length - 1; i++) {
+                    if (typeof lines[i] == undefined) {
+                      console.log("Can not read '" + lines[i] + "'.");
+                      return;
+                    } else {
+                      values = lines[i].split(",");
+                    }
                     //console.log(lines[i]);
-                    if(values[2] !== null) {
+                    if(values[2].length > 3) {
                       //console.log("test passed");
                       points.push(new google.maps.LatLng(formatCoordinates(values[2]), formatCoordinates(values[3])));
-                      //console.log("(" +
-                      //        formatCoordinates(values[2]) + ", " +
-                      //        formatCoordinates(values[3]) + ")");
+                      console.log("(" +
+                              formatCoordinates(values[2]) + ", " +
+                              formatCoordinates(values[3]) + ")");
                     }
                   }
                   document.getElementById("status").innerHTML = "Loading map";
@@ -160,6 +181,7 @@
       }
 
       function getPoints() {
+        console.log("Heatmap size: " + points.length);
         return points;
       }
     </script>

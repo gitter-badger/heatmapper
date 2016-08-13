@@ -11,13 +11,20 @@
       }
       #map {
         height: 100%;
+        top: 3%;
       }
       #input-panel {
         position: absolute;
-        top: 1%;
-        left: 35%;
+        width: 100%;
+        height: 3%;
         z-index: 5;
-        background-color: #0f0;
+        background-color: #4CAF50;
+      }
+      #status-panel {
+        padding-right: 15px;
+        float: right;
+      }
+      #input {
       }
       #map-style-panel {
         position: absolute;
@@ -25,15 +32,14 @@
         left: 35%;
         z-index: 5;
         background-color: #fff;
-
       }
     </style>
   </head>
 
   <body>
     <div id="input-panel">
-      <span id="status-panel">Status: <a id="status" style=="none">waiting for input</a></span>
       <input type="file" id="input" multiple onchange="readFiles(this.files)" />
+      <span id="status-panel">Status: <a id="status" style=="none">waiting for input</a></span>
     </div>
     <div id="map-style-panel">
       <button onclick="toggleHeatmap()">Toggle Heatmap</button>
@@ -72,10 +78,13 @@
         reader.readAsText(file);
         reader.onerror =
                 function() {
-                  document.getElementById("status").innerHTML = 'Error';
+                  document.getElementById("status").innerHTML = "Error reading file";
+                  document.getElementById("input-panel").style.backgroundColor = "#F44336";
                 };
         reader.onloadstart =
                 function() {
+                  document.getElementById("status").innerHTML = "Loading file...";
+                  document.getElementById("input-panel").style.backgroundColor = "#FFEB3B";
                 };
         reader.onload =
                 function() {
@@ -87,11 +96,13 @@
                     if(values[2] !== null) {
                       //console.log("test passed");
                       points.push(new google.maps.LatLng(formatCoordinates(values[2]), formatCoordinates(values[3])));
-                      console.log("(" +
-                              formatCoordinates(values[2]) + ", " +
-                              formatCoordinates(values[3]) + ")");
+                      //console.log("(" +
+                      //        formatCoordinates(values[2]) + ", " +
+                      //        formatCoordinates(values[3]) + ")");
                     }
                   }
+                  document.getElementById("status").innerHTML = "Loading map";
+                  document.getElementById("input-panel").style.backgroundColor = "#FFEB3B";
                   initMap();
                 };
             //for (var i = 0; i < files.length; i++) {
@@ -111,6 +122,9 @@
           data: getPoints(),
           map: map
         });
+
+        document.getElementById("status").innerHTML = "Done";
+        document.getElementById("input-panel").style.backgroundColor = "#4CAF50";
       }
 
       function toggleHeatmap() {

@@ -12,14 +12,14 @@
       #map {
         height: 100%;
       }
-      #input {
+      #input-panel {
         position: absolute;
         top: 1%;
         left: 35%;
         z-index: 5;
-        background-color: #fff;
+        background-color: #0f0;
       }
-      #floating-panel {
+      #map-style-panel {
         position: absolute;
         top: 5%;
         left: 35%;
@@ -31,8 +31,11 @@
   </head>
 
   <body>
-    <input type="file" id="input" multiple onchange="readFiles(this.files)" />
-    <div id="floating-panel">
+    <div id="input-panel">
+      <span id="status-panel">Status: <a id="status" style=="none">waiting for input</a></span>
+      <input type="file" id="input" multiple onchange="readFiles(this.files)" />
+    </div>
+    <div id="map-style-panel">
       <button onclick="toggleHeatmap()">Toggle Heatmap</button>
       <button onclick="changeGradient()">Change gradient</button>
       <button onclick="changeRadius()">Change radius</button>
